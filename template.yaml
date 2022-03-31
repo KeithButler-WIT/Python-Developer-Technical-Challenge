@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: SAM Template for SAM Python Developer Technical Challenge application
+Description: SAM Template for AWS/Python Developer Technical Challenge application
 
 Globals:
   Function:
@@ -51,14 +51,48 @@ Resources:
             Action:
             - dynamodb:BatchWriteItem
             Resource: !GetAtt DocumentTable.Arn
-  # lambda function to get average price based on make
-  GetDocumentFunction:
+  # lambda function to retrieve a car record by id
+  GetAveragePriceFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: functions/get_document/
+      CodeUri: functions/get_averag_price/
       Handler: app.lambda_handler
       Runtime: python3.7
-      FunctionName: GetDocumentFunction
+      FunctionName: GetAveragePriceFunction
+      Events:
+        GetDocument:
+          Type: Api
+          Properties:
+            Path: /document
+            Method: get
+            RequestParameters:
+              - method.request.querystring.id
+            RestApiId: !Ref MyApi
+      Environment:
+        Variables:
+          Environment: !Ref Environment
+          DDBTableName: !Ref DDBTableName
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:getItem
+            Resource: !GetAtt DocumentTable.Arn
+  # lambda function to get average price based on make
+  GetAveragePriceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_averag_price/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      FunctionName: GetAveragePriceFunction
       Events:
         GetDocument:
           Type: Api
@@ -104,9 +138,6 @@ Resources:
           AttributeName: 'documentId'
           AttributeType: 'N'
         -
-          AttributeName: 'versionId'
-          AttributeType: 'S'
-        -
           AttributeName: 'make'
           AttributeType: 'S'
         -
@@ -131,27 +162,14 @@ Resources:
         -
           AttributeName: 'documentId'
           KeyType: 'HASH'
-        -
-          AttributeName: 'versionId'
-          KeyType: 'RANGE'
       TableName: !Ref DDBTableName
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
 
-##########################
-##   Static S3 webapp   ##
-##########################
-  S3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      AccessControl: PublicRead
-      WebsiteConfiguration:
-        IndexDocument: index.html
-
 Outputs:
-  GetDocumentApi:
-    Description: API Gateway endpoint URL to get document location based on documentId and versionId
+  GetAveragePriceApi:
+    Description: API Gateway endpoint URL to get average price based on make
     Value: !Sub https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/v1/document
   WebsiteURL:
     Value: !GetAtt S3Bucket.WebsiteURL
