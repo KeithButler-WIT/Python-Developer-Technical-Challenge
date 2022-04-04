@@ -19,14 +19,14 @@ def get_ddb_connection():
     return ddbclient
 
 def lambda_handler(event, context):
-    docid = event['queryStringParameters']['documentId']
+    makeid = event['queryStringParameters']['make']
 
     try:
         ddbclient = get_ddb_connection()
         response = ddbclient.get_item(
             TableName=os.environ['DDBTableName'],
             Key={
-                'documentId':{'N': docid},
+                'make':{'N': makeid},
             },
             AttributesToGet=[
                 'price',
