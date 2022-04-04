@@ -27,84 +27,78 @@ def lambda_handler(event, context):
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '0'},
                             'make': {'S': 'Nissan'},
                             'model': {'S': 'Micra'},
                             'year': {'N': '2004'},
                             'chassis_no': {'S': '12345A'},
                             'id': {'N': '1'},
                             'last_updated': {'S': '2017-02-01 00:00:00'},
-                            'price': {'N': '500.0'},
+                            'price': {'N': '500.0'}
                         }
                     }
                 },
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '1'},
                             'make': {'S': 'Nissan'},
                             'model': {'S': 'Micra'},
                             'year': {'N': '2004'},
                             'chassis_no': {'S': '12425A'},
                             'id': {'N': '1'},
                             'last_updated': {'S': '2017-03-01 00:00:00'},
-                            'price': {'N': '400.0'},
+                            'price': {'N': '400.0'}
                         }
                     }
                 },
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '2'},
                             'make': {'S': 'Ford'},
                             'model': {'S': 'Fiesta'},
                             'year': {'N': '2002'},
                             'chassis_no': {'S': '12345B'},
                             'id': {'N': '1'},
                             'last_updated': {'S': '2017-03-01 00:00:00'},
-                            'price': {'N': '300.0'},
+                            'price': {'N': '300.0'}
                         }
                     }
                 },
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '3'},
                             'make': {'S': 'Audi'},
                             'model': {'S': 'A3'},
                             'year': {'N': ''},
                             'chassis_no': {'S': '12345C'},
                             'id': {'N': '3'},
                             'last_updated': {'S': '2017-04-01 00:00:00'},
-                            'price': {'N': ''},
+                            'price': {'N': ''}
                         }
                     }
                 },
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '4'},
                             'make': {'S': 'Nissan'},
                             'model': {'S': 'Micra'},
                             'year': {'N': '2004'},
                             'chassis_no': {'S': '12345D'},
                             'id': {'N': '4'},
                             'last_updated': {'S': '2017-05-01 00:00:00'},
-                            'price': {'N': '200.0'},
+                            'price': {'N': '200.0'}
                         }
                     }
                 },
                 {
                     'PutRequest': {
                         'Item': {
-                            'documentId': {'N': '5'},
                             'make': {'S': 'Peugeot'},
                             'model': {'S': '308'},
                             'year': {'N': '1998'},
                             'chassis_no': {'S': '12345E'},
                             'id': {'N': '5'},
                             'last_updated': {'S': '2017-06-01 00:00:00'},
-                            'price': {'N': '100.0'},
+                            'price': {'N': '100'}
                         }
                     }
                 },
