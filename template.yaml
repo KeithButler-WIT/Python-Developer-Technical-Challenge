@@ -52,39 +52,40 @@ Resources:
             - dynamodb:BatchWriteItem
             Resource: !GetAtt DocumentTable.Arn
   # lambda function to retrieve a car record by id
-  # GetCarByIdFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     CodeUri: functions/get_car_by_id_price/
-  #     Handler: app.lambda_handler
-  #     Runtime: python3.7
-  #     FunctionName: GetCarByIdFunction
-  #     Events:
-  #       GetDocument:
-  #         Type: Api
-  #         Properties:
-  #           Path: /document
-  #           Method: get
-  #           RequestParameters:
-  #             - method.request.querystring.id
-  #           RestApiId: !Ref MyApi
-  #     Environment:
-  #       Variables:
-  #         Environment: !Ref Environment
-  #         DDBTableName: !Ref DDBTableName
-  #     Policies:
-  #       - Version: '2012-10-17'
-  #         Statement:
-  #         - Effect: Allow
-  #           Action:
-  #           - logs:CreateLogGroup
-  #           - logs:CreateLogStream
-  #           - logs:PutLogEvents
-  #           Resource: arn:aws:logs:*:*:*
-  #         - Effect: Allow
-  #           Action:
-  #           - dynamodb:getItem
-  #           Resource: !GetAtt DocumentTable.Arn
+  GetCarByIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_car_by_id/
+      Handler: app.lambda_handler
+      Runtime: python3.7
+      FunctionName: GetCarByIdFunction
+      Events:
+        GetDocument:
+          Type: Api
+          Properties:
+            Path: /document
+            Method: get
+            RequestParameters:
+              # - method.request.querystring.id
+              - method.request.querystring.chassis_no
+            RestApiId: !Ref MyApi
+      Environment:
+        Variables:
+          Environment: !Ref Environment
+          DDBTableName: !Ref DDBTableName
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:getItem
+            Resource: !GetAtt DocumentTable.Arn
   # lambda function to get average price based on make
   GetAveragePriceFunction:
     Type: AWS::Serverless::Function
@@ -134,27 +135,27 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       AttributeDefinitions:
-        -
-          AttributeName: 'make'
-          AttributeType: 'S'
-        -
-          AttributeName: 'model'
-          AttributeType: 'S'
-        -
-          AttributeName: 'year'
-          AttributeType: 'N'
+        # -
+        #   AttributeName: 'make'
+        #   AttributeType: 'S'
+        # -
+        #   AttributeName: 'model'
+        #   AttributeType: 'S'
+        # -
+        #   AttributeName: 'year'
+        #   AttributeType: 'N'
         -
           AttributeName: 'chassis_no'
           AttributeType: 'S'
         -
           AttributeName: 'id'
           AttributeType: 'N'
-        -
-          AttributeName: 'last_updated'
-          AttributeType: 'S'
-        -
-          AttributeName: 'price'
-          AttributeType: 'N'
+        # -
+        #   AttributeName: 'last_updated'
+        #   AttributeType: 'S'
+        # -
+        #   AttributeName: 'price'
+        #   AttributeType: 'N'
       KeySchema:
         -
           AttributeName: 'chassis_no'
